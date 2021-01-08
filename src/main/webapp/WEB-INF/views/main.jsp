@@ -11,6 +11,8 @@
     <title>Cash Register System</title>
 </head>
 <body>
-
+<div id="app">
+    <
+</div>
 </body>
 </html>

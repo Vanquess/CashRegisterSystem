@@ -11,9 +11,9 @@
     <title>Cash Register System</title>
     <!-- 引入样式 -->
     <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
-    <!-- import Vue before Element -->
+    <!-- 引入vue -->
     <script src="https://unpkg.com/vue/dist/vue.js"></script>
-    <!-- 引入组件库 -->
+    <!-- 引入element-ui组件库 -->
     <script src="https://unpkg.com/element-ui/lib/index.js"></script>
 </head>
 <body style="margin: 0;">
@@ -25,21 +25,21 @@
         </div>
         <div style="height: 25px"></div>
         <div class="box-info">
-            <el-input v-model="dataForm.username" placeholder="账号"></el-input>
+            <el-input v-model="dataForm.username" placeholder="账号" @keyup.enter="dataFormSubmit"></el-input>
         </div>
         <div style="height: 5px"></div>
         <div class="box-info">
-            <el-input v-model="dataForm.password" placeholder="密码" type="password"></el-input>
+            <el-input v-model="dataForm.password" placeholder="密码" type="password" @keyup.enter="dataFormSubmit"></el-input>
         </div>
         <div style="height: 5px"></div>
         <div class="box-info" style="width: 200px;">
-            <el-input v-model="dataForm.captcha" placeholder="验证码" style="width:200px"></el-input>
+            <el-input v-model="dataForm.captcha" placeholder="验证码" style="width:200px" @keyup.enter="dataFormSubmit"></el-input>
             <div class="code-img">
                 <img :src="captchaPath" @click="getCaptcha()" alt="">
             </div>
         </div>
         <div style="height: 15px"></div>
-        <el-button @click="login" type="primary" style="width: 350px">登录</el-button>
+        <el-button @click="login" type="primary" style="width: 350px" @click="dataFormSubmit">登录</el-button>
     </div>
 
 </div>
@@ -54,15 +54,83 @@
                     username: '',
                     password: '',
                     captcha: ''
-                }
+                },
+                captchaPath: ''
             }
         },
+        created() {
+            this.getCaptcha()
+        },
         methods: {
-            login() {
-
+            // 提交表单
+            dataFormSubmit: throttle(function(query) {
+                if (!this.dataForm.userName) {
+                    this.$message({
+                        message: '请输入账号',
+                        type: 'warning'
+                    })
+                } else if (!this.dataForm.password) {
+                    this.$message({
+                        message: '请输入密码',
+                        type: 'warning'
+                    })
+                } else if (!this.dataForm.captcha) {
+                    this.$message({
+                        message: '请输入验证码',
+                        type: 'warning'
+                    })
+                } else {
+                    this.onSubmit = true
+                    this.$http({
+                        url: this.$http.adornUrl('/sys/login'),
+                        method: 'post',
+                        data: this.$http.adornData({
+                            'username': this.dataForm.userName,
+                            'password': this.dataForm.password,
+                            'uuid': this.dataForm.uuid,
+                            'captcha': this.dataForm.captcha
+                        })
+                    }).then(({
+                                 data
+                             }) => {
+                        if (data && data.code === 0) {
+                            this.$cookie.set('token', data.token)
+                            this.$router.replace({
+                                name: 'home'
+                            })
+                            this.onSubmit = false
+                        } else {
+                            this.getCaptcha()
+                            this.onSubmit = false
+                        }
+                        this.onSubmit = false
+                    }).catch((errer) => {
+                        this.getCaptcha()
+                        this.onSubmit = false
+                    })
+                }
+            }, 2000),
+            // 获取验证码
+            getCaptcha() {
+                this.dataForm.uuid = getUUID()
+                this.captchaPath = this.$http.adornUrl(`/captcha?uuid=${this.dataForm.uuid}`)
+                console.info(this.captchaPath)
             }
         }
     })
+
+    function throttle(func, delay) {
+        let prev = Date.now()
+        return function() {
+            let context = this
+            let args = arguments
+            let now = Date.now()
+            if (now - prev >= delay) {
+                func.apply(context, args)
+                prev = Date.now()
+            }
+        }
+    }
 </script>
 <style>
     .container {
