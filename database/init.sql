@@ -1,7 +1,10 @@
--- 系统验证码
-CREATE TABLE `captcha` (
-  `uuid` char(36) NOT NULL COMMENT 'uuid',
-  `code` varchar(6) NOT NULL COMMENT '验证码',
-  `expire_time` datetime DEFAULT NULL COMMENT '过期时间',
-  PRIMARY KEY (`uuid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='系统验证码';
+-- 管理员表
+CREATE TABLE `admin` (
+	`id` INT ( 6 ) NOT NULL AUTO_INCREMENT,
+	`username` VARCHAR ( 255 ) NOT NULL DEFAULT 'admin' COMMENT '默认admin',
+	`password` VARCHAR ( 255 ) NOT NULL DEFAULT '123456' COMMENT '默认123456',
+	`age` INT ( 3 ) NULL DEFAULT NULL,
+	`sex` INT ( 2 ) NULL DEFAULT 0 COMMENT '0为男,1为女',
+	`phone` VARCHAR ( 255 ) NULL DEFAULT NULL,
+	PRIMARY KEY ( `id` ) USING BTREE
+) ENGINE = INNODB AUTO_INCREMENT = 120001 DEFAULT CHARSET=utf8;

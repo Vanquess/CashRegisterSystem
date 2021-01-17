@@ -9,131 +9,48 @@
 <html>
 <head>
     <title>Cash Register System</title>
-    <!-- 引入样式 -->
-    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
-    <!-- 引入vue -->
-    <script src="https://unpkg.com/vue/dist/vue.js"></script>
-    <!-- 引入element-ui组件库 -->
-    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <!-- CSS only -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
+          crossorigin="anonymous">
+    <!-- JS, Popper.js, and jQuery -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+            crossorigin="anonymous"></script>
 </head>
 <body style="margin: 0;">
-<div id="app" class="container" style="background-image: url(login.jpg);">
-
-    <div style="width: 600px; height: 100%; float: right; margin-top: 300px">
-        <div style="width: 350px; height: 50px; display: flex; align-items: center; margin-top: 10px;">
-            <h1>Cash Register System</h1>
+<div class="full-body" style="background-image: url(login.jpg);">
+    <div class="login-module">
+        <div class="login-module-title">
+            <div style="font-size: 2.2em; font-weight: 500;">Cash Register System</div>
         </div>
-        <div style="height: 25px"></div>
-        <div class="box-info">
-            <el-input v-model="dataForm.username" placeholder="账号" @keyup.enter="dataFormSubmit"></el-input>
+        <div style="height: 15px"></div>
+        <div class="login-module-input">
+            <input type="text" class="form-control" placeholder="账号" />
         </div>
-        <div style="height: 5px"></div>
-        <div class="box-info">
-            <el-input v-model="dataForm.password" placeholder="密码" type="password" @keyup.enter="dataFormSubmit"></el-input>
+        <div style="height: 5px;"></div>
+        <div class="login-module-input">
+            <input type="password" class="form-control" placeholder="密码" />
         </div>
-        <div style="height: 5px"></div>
-        <div class="box-info" style="width: 200px;">
-            <el-input v-model="dataForm.captcha" placeholder="验证码" style="width:200px" @keyup.enter="dataFormSubmit"></el-input>
+        <div style="height: 5px;"></div>
+        <div class="login-module-input" style="width: 200px;">
+            <input type="text" class="form-control" placeholder="验证码" />
             <div class="code-img">
                 <img :src="captchaPath" @click="getCaptcha()" alt="">
             </div>
         </div>
-        <div style="height: 15px"></div>
-        <el-button @click="login" type="primary" style="width: 350px" @click="dataFormSubmit">登录</el-button>
+        <div style="height: 15px;"></div>
+        <button type="button" class="btn btn-primary" style="width: 350px;">登录</button>
     </div>
-
 </div>
 </body>
 <script>
-    new Vue({
-        el: '#app',
-        data: function() {
-            return {
-                visible: false,
-                dataForm: {
-                    username: '',
-                    password: '',
-                    captcha: ''
-                },
-                captchaPath: ''
-            }
-        },
-        created() {
-            this.getCaptcha()
-        },
-        methods: {
-            // 提交表单
-            dataFormSubmit: throttle(function(query) {
-                if (!this.dataForm.userName) {
-                    this.$message({
-                        message: '请输入账号',
-                        type: 'warning'
-                    })
-                } else if (!this.dataForm.password) {
-                    this.$message({
-                        message: '请输入密码',
-                        type: 'warning'
-                    })
-                } else if (!this.dataForm.captcha) {
-                    this.$message({
-                        message: '请输入验证码',
-                        type: 'warning'
-                    })
-                } else {
-                    this.onSubmit = true
-                    this.$http({
-                        url: this.$http.adornUrl('/sys/login'),
-                        method: 'post',
-                        data: this.$http.adornData({
-                            'username': this.dataForm.userName,
-                            'password': this.dataForm.password,
-                            'uuid': this.dataForm.uuid,
-                            'captcha': this.dataForm.captcha
-                        })
-                    }).then(({
-                                 data
-                             }) => {
-                        if (data && data.code === 0) {
-                            this.$cookie.set('token', data.token)
-                            this.$router.replace({
-                                name: 'home'
-                            })
-                            this.onSubmit = false
-                        } else {
-                            this.getCaptcha()
-                            this.onSubmit = false
-                        }
-                        this.onSubmit = false
-                    }).catch((errer) => {
-                        this.getCaptcha()
-                        this.onSubmit = false
-                    })
-                }
-            }, 2000),
-            // 获取验证码
-            getCaptcha() {
-                this.dataForm.uuid = getUUID()
-                this.captchaPath = this.$http.adornUrl(`/captcha?uuid=${this.dataForm.uuid}`)
-                console.info(this.captchaPath)
-            }
-        }
-    })
 
-    function throttle(func, delay) {
-        let prev = Date.now()
-        return function() {
-            let context = this
-            let args = arguments
-            let now = Date.now()
-            if (now - prev >= delay) {
-                func.apply(context, args)
-                prev = Date.now()
-            }
-        }
-    }
 </script>
 <style>
-    .container {
+    .full-body {
         position: fixed;
         width: 100%;
         height: 100%;
@@ -142,7 +59,25 @@
         justify-content: space-around;
         align-items: center;
     }
-    .box-info {
+
+    .login-module {
+        width: 350px;
+        height: 100%;
+        margin: auto;
+        position: relative; /*脱离文档流*/
+        top: 50%; /*偏移*/
+        margin-top: -200px;
+    }
+
+    .login-module-title {
+        width: 350px;
+        height: 50px;
+        display: flex;
+        align-items: center;
+        margin-top: 10px;
+    }
+
+    .login-module-input {
         width: 350px;
         height: 50px;
         display: flex;
@@ -154,14 +89,15 @@
         border-radius: 4px;
         background: rgba(255, 255, 255, .2);
     }
-    .box-info input {
+
+    .login-module-input input {
         border: 0;
         width: 100%;
         height: 100%;
         outline: none;
         background: rgba(0, 0, 0, 0) !important;
-        color: #FFF;
     }
+
     .code-img {
         width: 134px;
         height: 50px;
@@ -172,6 +108,7 @@
         border-radius: 4px;
         overflow: hidden;
     }
+
     .code-img img {
         width: 100%;
         height: 100%;
