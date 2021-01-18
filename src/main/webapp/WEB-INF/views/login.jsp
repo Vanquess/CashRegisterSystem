@@ -27,27 +27,33 @@
             <div style="font-size: 2.2em; font-weight: 500;">Cash Register System</div>
         </div>
         <div style="height: 15px"></div>
-        <div class="login-module-input">
-            <input type="text" class="form-control" placeholder="账号" />
-        </div>
-        <div style="height: 5px;"></div>
-        <div class="login-module-input">
-            <input type="password" class="form-control" placeholder="密码" />
-        </div>
-        <div style="height: 5px;"></div>
-        <div class="login-module-input" style="width: 200px;">
-            <input type="text" class="form-control" placeholder="验证码" />
-            <div class="code-img">
-                <img :src="captchaPath" @click="getCaptcha()" alt="">
+        <form action="/checkVerify" method="get">
+            <div class="login-module-input">
+                <input type="text" class="form-control" placeholder="账号" />
             </div>
-        </div>
-        <div style="height: 15px;"></div>
-        <button type="button" class="btn btn-primary" style="width: 350px;">登录</button>
+            <div style="height: 5px;"></div>
+            <div class="login-module-input">
+                <input type="password" class="form-control" placeholder="密码" />
+            </div>
+            <div style="height: 5px;"></div>
+<%--            <div class="login-module-input" style="width: 200px;">--%>
+<%--                <input type="text" class="form-control" placeholder="验证码" />--%>
+<%--                <div class="code-img">--%>
+<%--                    <a href="javascript:void(0);" title="点击更换验证码">--%>
+<%--                        <img id="imgVerify" src="" alt="更换验证码" height="50px" width="134px" onclick="getVerify(this);">--%>
+<%--                    </a>--%>
+<%--                </div>--%>
+<%--            </div>--%>
+            <div style="height: 15px;"></div>
+            <button type="button" class="btn btn-primary" style="width: 350px;">登录</button>
+        </form>
     </div>
 </div>
 </body>
 <script>
-
+    // function getVerify(obj) {
+    //     obj.src = "/getVerify?" + Math.random();
+    // }
 </script>
 <style>
     .full-body {
