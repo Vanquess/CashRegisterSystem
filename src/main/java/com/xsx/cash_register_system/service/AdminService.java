@@ -6,5 +6,6 @@ public interface AdminService {
     /**
      * 用户登录
      */
-    public String LoginAdmin(int id, String password);
+
+    Admin getById(Integer id);
 }

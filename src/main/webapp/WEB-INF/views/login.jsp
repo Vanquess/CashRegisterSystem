@@ -27,7 +27,7 @@
             <div style="font-size: 2.2em; font-weight: 500;">Cash Register System</div>
         </div>
         <div style="height: 15px"></div>
-        <form action="/checkVerify" method="get">
+        <form action="/loginAction" method="post">
             <div class="login-module-input">
                 <input type="text" class="form-control" placeholder="账号" />
             </div>
@@ -45,7 +45,7 @@
 <%--                </div>--%>
 <%--            </div>--%>
             <div style="height: 15px;"></div>
-            <button type="button" class="btn btn-primary" style="width: 350px;">登录</button>
+            <button type="submit" class="btn btn-primary" style="width: 350px;">登录</button>
         </form>
     </div>
 </div>
