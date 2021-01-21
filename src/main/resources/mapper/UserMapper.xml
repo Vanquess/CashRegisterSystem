@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xsx.cash_register_system.mapper.UserMapper">
+
+    <select id="getAllUser" parameterType="String" resultType="com.xsx.cash_register_system.entity.User">
+        SELECT * FROM user
+    </select>
+
+<!--    <select id="getAllUserByName" parameterType="String" resultType="com.xsx.cash_register_system.entity.User">-->
+<!--        SELECT name,id FROM user where name = #{value}-->
+<!--    </select>-->
+
+    <select id="loginPage" parameterType="String" resultType="com.xsx.cash_register_system.entity.User">
+        SELECT name FROM user where username = #{0} and id = #{120001}
+    </select>
+
+</mapper>

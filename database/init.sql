@@ -8,3 +8,15 @@ CREATE TABLE `admin` (
 	`phone` VARCHAR ( 255 ) NULL DEFAULT NULL,
 	PRIMARY KEY ( `id` ) USING BTREE
 ) ENGINE = INNODB AUTO_INCREMENT = 120001 DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `user`;
+CREATE TABLE `user` (
+  `id` int(6) NOT NULL AUTO_INCREMENT,
+  `username` varchar(255) NOT NULL DEFAULT 'admin' COMMENT '默认admin',
+  `password` varchar(255) NOT NULL DEFAULT '123456' COMMENT '默认123456',
+  `age` int(3) DEFAULT NULL,
+  `sex` int(2) DEFAULT '0' COMMENT '0为男,1为女',
+  `phone` varchar(255) DEFAULT NULL,
+  `status` int(2) DEFAULT '0' COMMENT '0为管理员，1为普通用户',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT = 120001 DEFAULT CHARSET=utf8;
