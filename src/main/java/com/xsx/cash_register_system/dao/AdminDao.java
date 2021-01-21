@@ -1,7 +1,11 @@
 package com.xsx.cash_register_system.dao;
 
+import com.xsx.cash_register_system.entity.Admin;
+import org.mybatis.spring.annotation.MapperScan;
+
 import java.util.List;
 
+@MapperScan
 public interface AdminDao {
 
     /**
@@ -9,5 +13,6 @@ public interface AdminDao {
      * @param id
      * @return
      */
-    public List selectById (int id, String password);
+    Admin findById (Integer id);
+
 }

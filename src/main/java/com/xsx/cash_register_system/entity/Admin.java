@@ -2,18 +2,18 @@ package com.xsx.cash_register_system.entity;
 
 public class Admin {
 
-    private int id;
+    private Integer id;
     private String username;
     private String password;
     private int age;
     private int sex;
     private String phone;
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

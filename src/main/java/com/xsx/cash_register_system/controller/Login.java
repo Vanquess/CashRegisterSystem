@@ -23,7 +23,7 @@ public class Login {
 
     @PostMapping(value = {"/loginAction"})
     public String login(Integer id, String password) {
-        Admin admin = adminService.LoginAdmin();
+        Admin admin = adminService.getById(id);
         if (admin == null) {
             return "dashboard";
         }

@@ -1,4 +1,5 @@
 -- 管理员表
+DROP TABLE IF EXISTS `admin`;
 CREATE TABLE `admin` (
 	`id` INT ( 6 ) NOT NULL AUTO_INCREMENT,
 	`username` VARCHAR ( 255 ) NOT NULL DEFAULT 'admin' COMMENT '默认admin',
